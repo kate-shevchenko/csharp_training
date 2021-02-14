@@ -43,9 +43,11 @@ namespace WebAdressbookTests
         public void GroupCreationTest()
         {
             OpenHomePage();
-            Login(new AccountData("admin","secret"));
+            LoginAction login = new LoginAction(driver, baseURL);
+            AccountData accountdata = new AccountData("admin", "secret");
+            login.Login(accountdata);
             GoToGroupsPage();
-            InitNewGroupCreateaon();
+            InitNewGroupCreation();
             GroupData group = new GroupData("test1");
             group.Header = "test2";
             group.Footer = "test3";
@@ -83,7 +85,7 @@ namespace WebAdressbookTests
             driver.FindElement(By.Name("group_footer")).SendKeys(group.Footer);
         }
 
-        private void InitNewGroupCreateaon()
+        private void InitNewGroupCreation()
         {
             driver.FindElement(By.Name("new")).Click();
         }
@@ -91,17 +93,6 @@ namespace WebAdressbookTests
         private void GoToGroupsPage()
         {
             driver.FindElement(By.LinkText("groups")).Click();
-        }
-
-        private void Login(AccountData account)
-        {
-            driver.FindElement(By.Name("user")).Click();
-            driver.FindElement(By.Name("user")).Clear();
-            driver.FindElement(By.Name("user")).SendKeys(account.Username);
-            driver.FindElement(By.Name("pass")).Click();
-            driver.FindElement(By.Name("pass")).Clear();
-            driver.FindElement(By.Name("pass")).SendKeys(account.Password);
-            driver.FindElement(By.XPath("//input[@value='Login']")).Click();
         }
 
         private void OpenHomePage()
