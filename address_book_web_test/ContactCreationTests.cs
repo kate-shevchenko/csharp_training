@@ -14,7 +14,7 @@ namespace WebAdressbookTests
         {
             navigator.GoToHomePage();
             loginHelper.Login(new AccountData("admin", "secret"));
-            InitNewContactCreation();
+            contactHelper.InitNewContactCreation();
             ContactData contact = new ContactData("FirstName1");
             contact.MiddleName = "MiddleName";
             contact.LastName = "LastName";
@@ -39,8 +39,8 @@ namespace WebAdressbookTests
             contact.SecondaryAddress = "SecondaryAddress";
             contact.SecondaryHome = "SecondaryHome";
             contact.Notes = "Notes";
-            FillContactForm(contact);
-            SubmitContactCreation();
+            contactHelper.FillContactForm(contact);
+            contactHelper.SubmitContactCreation();
         }
     }
 }
