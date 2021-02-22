@@ -16,6 +16,14 @@ namespace WebAdressbookTests
         {
         }
 
+        public ContactHelper Remove(int index)
+        {
+            SelectContact(index);
+            InitContactRemoving();
+            ConfirmContactRemoving();
+            return this;
+        }
+
         public ContactHelper Create(ContactData contact)
         {
             InitNewContactCreation();
@@ -23,6 +31,15 @@ namespace WebAdressbookTests
             SubmitContactCreation();
             return this;
         }
+
+        public ContactHelper Modify(int index, ContactData newData)
+        {
+            InitContactModification(index);
+            FillContactForm(newData);
+            SubmitContactModification();
+            return this;
+        }
+
         public ContactHelper InitNewContactCreation()
         {
             driver.FindElement(By.LinkText("add new")).Click();
@@ -110,6 +127,37 @@ namespace WebAdressbookTests
             driver.FindElement(By.XPath("(//input[@name='submit'])[2]")).Click();
             return this;
         }
+
+        public ContactHelper InitContactModification(int index)
+        {
+            driver.FindElement(By.XPath("//img[@alt='Edit']["+ index +"]")).Click();
+            return this;
+        }
+        public ContactHelper SubmitContactModification()
+        {
+            driver.FindElement(By.XPath("(//input[@name='update'])[2]")).Click();
+            return this;
+        }
+
+        public ContactHelper SelectContact(int index)
+        {
+            index++; //так как первый элемент находится во второй строчке
+            driver.FindElement(By.XPath("//tr["+ index + "]/td/input")).Click();
+            return this;
+        }
+
+        public ContactHelper InitContactRemoving()
+        {
+            driver.FindElement(By.XPath("//input[@value='Delete']")).Click();
+            return this;
+        }
+
+        private void ConfirmContactRemoving()
+        {
+            driver.SwitchTo().Alert().Accept();
+        }
+
+
 
     }
 }
