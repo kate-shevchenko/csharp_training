@@ -29,9 +29,9 @@ namespace WebAdressbookTests
             newData.Email2 = "email2New";
             newData.Email3 = "email3New";
             newData.Homepage = "HomePhoneNew";
-            newData.BirthdayDay = "10";
-            newData.BirthdayMonth = "February";
-            newData.BirthdayYear = "1991";
+            newData.BirthdayDay = null;
+            newData.BirthdayMonth = null;
+            newData.BirthdayYear = null;
             newData.AnniversaryDay = "20";
             newData.AnniversaryMonth = "January";
             newData.AnniversaryYear = "2011";
