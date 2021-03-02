@@ -27,6 +27,7 @@ namespace WebAdressbookTests
 
                 Logout();
             }
+            
             Type(By.Name("user"), account.Username);
             Type(By.Name("pass"), account.Password);
             driver.FindElement(By.XPath("//input[@value='Login']")).Click();
@@ -38,6 +39,7 @@ namespace WebAdressbookTests
             {
                 driver.FindElement(By.LinkText("Logout")).Click();
             }
+            EnsureNotLoggedIn();
         }
 
         public bool IsLoggedIn()
@@ -50,6 +52,11 @@ namespace WebAdressbookTests
             return IsLoggedIn()
                 && driver.FindElement(By.Name("logout")).FindElement(By.TagName("b")).Text 
                     == "(" + account.Username + ")";
+        }
+
+        public void EnsureNotLoggedIn()
+        {
+            driver.FindElement(By.Name("user"));
         }
 
 

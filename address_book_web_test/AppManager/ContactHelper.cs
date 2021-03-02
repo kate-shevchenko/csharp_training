@@ -113,7 +113,10 @@ namespace WebAdressbookTests
             driver.SwitchTo().Alert().Accept();
         }
 
-
-
+        public bool DoesContactExist()
+        {
+            manager.Navigator.GoToHomePage();
+            return IsElementPresent(By.Name("selected[]"));
+        }
     }
 }

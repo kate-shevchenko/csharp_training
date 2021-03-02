@@ -13,6 +13,12 @@ namespace WebAdressbookTests
         [Test]
         public void GroupModificationTest()
         {
+            if (!app.Groups.DoesGroupExist())
+            {
+                GroupData group = new GroupData("test1");
+                app.Groups.Create(group);
+            }
+
             GroupData newData = new GroupData("aaa");
             newData.Header = null;
             newData.Footer = null;

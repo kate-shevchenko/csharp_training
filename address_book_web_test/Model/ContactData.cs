@@ -9,29 +9,29 @@ namespace WebAdressbookTests
     public class ContactData
     {
         private string firstName;
-        private string middleName = "";
-        private string lastName = "";
-        private string nickname = "";
-        private string title = "";
-        private string company = "";
-        private string address = "";
-        private string homeTelephone = "";
-        private string mobileTelephone = "";
-        private string workTelephone = "";
-        private string fax = "";
-        private string email = "";
-        private string email2 = "";
-        private string email3 = "";
-        private string homepage = "";
-        private string birthdayDay = "";
-        private string birthdayMonth = "";
-        private string birthdayYear = "";
-        private string anniversaryDay = "";
-        private string anniversaryMonth = "";
-        private string anniversaryYear = "";
-        private string secondaryAddress = "";
-        private string secondaryHome = "";
-        private string notes = "";
+        private string middleName;
+        private string lastName;
+        private string nickname;
+        private string title;
+        private string company;
+        private string address;
+        private string homeTelephone;
+        private string mobileTelephone;
+        private string workTelephone;
+        private string fax;
+        private string email;
+        private string email2;
+        private string email3;
+        private string homepage;
+        private string birthdayDay;
+        private string birthdayMonth;
+        private string birthdayYear;
+        private string anniversaryDay;
+        private string anniversaryMonth;
+        private string anniversaryYear;
+        private string secondaryAddress;
+        private string secondaryHome;
+        private string notes;
 
 
         public ContactData(string firstName)

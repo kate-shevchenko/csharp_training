@@ -24,6 +24,8 @@ namespace WebAdressbookTests
         private ApplicationManager()
         {
             driver = new FirefoxDriver();
+            driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
+
             baseURL = "http://localhost/addressbook/";
 
             loginHelper = new LoginHelper(this);
