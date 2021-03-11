@@ -22,6 +22,7 @@ namespace WebAdressbookTests
             SelectContact(index);
             InitContactRemoving();
             ConfirmContactRemoving();
+            contactCache = null;
             ReturnToHomePage();
             return this;
         }
@@ -88,6 +89,7 @@ namespace WebAdressbookTests
         public ContactHelper SubmitContactCreation()
         {
             driver.FindElement(By.XPath("(//input[@name='submit'])[2]")).Click();
+            contactCache = null;
             return this;
         }
 
@@ -99,6 +101,7 @@ namespace WebAdressbookTests
         public ContactHelper SubmitContactModification()
         {
             driver.FindElement(By.XPath("(//input[@name='update'])[2]")).Click();
+            contactCache = null;
             return this;
         }
 
@@ -126,18 +129,22 @@ namespace WebAdressbookTests
             return IsElementPresent(By.Name("selected[]"));
         }
 
+        private List<ContactData> contactCache = null;
         public List<ContactData> GetContactList()
         {
-            List<ContactData> contacts = new List<ContactData>();
-            manager.Navigator.GoToHomePage();
-            ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("tr[name='entry']"));
-            foreach (IWebElement element in elements)
+            if (contactCache == null)
             {
-                var firstName = element.FindElement(By.CssSelector("td:nth-of-type(3)")).Text;
-                var lastName = element.FindElement(By.CssSelector("td:nth-of-type(2)")).Text;
-                contacts.Add(new ContactData(firstName, lastName));
+                contactCache = new List<ContactData>();
+                manager.Navigator.GoToHomePage();
+                ICollection<IWebElement> elements = driver.FindElements(By.CssSelector("tr[name='entry']"));
+                foreach (IWebElement element in elements)
+                {
+                    var firstName = element.FindElement(By.CssSelector("td:nth-of-type(3)")).Text;
+                    var lastName = element.FindElement(By.CssSelector("td:nth-of-type(2)")).Text;
+                    contactCache.Add(new ContactData(firstName, lastName));
+                }
             }
-            return contacts;
+            return new List<ContactData>(contactCache);
         }
     }
 }
