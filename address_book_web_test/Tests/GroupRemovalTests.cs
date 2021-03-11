@@ -13,11 +13,11 @@ namespace WebAdressbookTests
         [Test]
         public void GroupRemovalTest()
         {
-            GroupData group = new GroupData("test1");
+            GroupData newGroup = new GroupData("test1");
             
             if (!app.Groups.DoesGroupExist())
             {
-                app.Groups.Create(group);
+                app.Groups.Create(newGroup);
             }
 
             List<GroupData> oldGroups = app.Groups.GetGroupList();
@@ -28,8 +28,14 @@ namespace WebAdressbookTests
 
             List<GroupData> newGroups = app.Groups.GetGroupList();
 
+            GroupData toBeRemoved = oldGroups[0];
             oldGroups.RemoveAt(0);
             Assert.AreEqual(oldGroups, newGroups);
+
+            foreach (GroupData group in newGroups)
+            {
+                Assert.AreNotEqual(group.Id, toBeRemoved.Id);
+            }
 
         }
     }
