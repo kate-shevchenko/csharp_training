@@ -28,9 +28,9 @@ namespace WebAdressbookTests
             newData.Title = "TitleNew";
             newData.Company = "CompanyNew";
             newData.Address = "AddressNew";
-            newData.HomeTelephone = "HomePhoneNew";
-            newData.MobileTelephone = "MobilePhoneNew";
-            newData.WorkTelephone = "WorkPhoneNew";
+            newData.HomePhone = "HomePhoneNew";
+            newData.MobilePhone = "MobilePhoneNew";
+            newData.WorkPhone = "WorkPhoneNew";
             newData.Fax = "FaxNew";
             newData.Email = "email1New";
             newData.Email2 = "email2New";

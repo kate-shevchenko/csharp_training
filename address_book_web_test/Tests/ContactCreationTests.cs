@@ -20,9 +20,9 @@ namespace WebAdressbookTests
             contact.Title = "Title";
             contact.Company = "Company";
             contact.Address = "Address";
-            contact.HomeTelephone = "HomePhone";
-            contact.MobileTelephone = "MobilePhone";
-            contact.WorkTelephone = "WorkPhone";
+            contact.HomePhone = "HomePhone";
+            contact.MobilePhone = "MobilePhone";
+            contact.WorkPhone = "WorkPhone";
             contact.Fax = "Fax";
             contact.Email = "email1";
             contact.Email2 = "email2";
