@@ -3,12 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Text.RegularExpressions;
 
 namespace WebAdressbookTests
 {
     public class ContactData : IEquatable<ContactData>, IComparable<ContactData>
     {
-        private string allPhones, allEmails;
+        private string allPhones, allEmails, allData; 
+
+        public ContactData()
+        {
+        }
 
         public ContactData(string firstName)
         {
@@ -111,7 +116,11 @@ namespace WebAdressbookTests
                 }
                 else
                 {
-                    var result = Email + "\r\n" + Email2 + "\r\n" + Email3 + "\r\n";
+                    var emails = new string[]
+                    {
+                        Email, Email2, Email3
+                    };
+                    var result = string.Join("\r\n", emails);
                     return result.Trim();
                 }
             }
@@ -121,13 +130,84 @@ namespace WebAdressbookTests
             }
         }
 
+        public int? Age
+        {
+            get
+            {
+                if (BirthdayDay == null || BirthdayMonth == null || BirthdayYear == null)
+                    return null;
+                var birthdayString = $"{BirthdayDay} {BirthdayMonth} {BirthdayYear}";
+                var birthdayDate = DateTime.Parse(birthdayString);
+                var age = DateTime.Now - birthdayDate;
+                return (int)(age.TotalDays / 365.2425);
+            }
+        }
+
+        public int? AnniversaryYears
+        {
+            get
+            {
+                if (AnniversaryDay == null || AnniversaryMonth == null || AnniversaryYear == null)
+                    return null;
+                var anniversaryString = $"{AnniversaryDay} {AnniversaryMonth} {AnniversaryYear}";
+                var anniversaryDate = DateTime.Parse(anniversaryString);
+                var anniversaryYears = DateTime.Now - anniversaryDate;
+                return (int)(anniversaryYears.TotalDays / 365.2425);
+            }
+        }
+
+        public string AllData
+        {
+            get
+            {
+                if (allData != null)
+                {
+                    return allData;
+                }
+                var parts = new string[] {
+                    $"{FirstName} {MiddleName} {LastName}",
+                    Nickname,
+                    Title,
+                    Company,
+                    Address,
+                    "",
+                    "H: " + HomePhone,
+                    "M: " + MobilePhone,
+                    "W: " + WorkPhone,
+                    "F: " + Fax,
+                    "",
+                    Email,
+                    Email2,
+                    Email3,
+                    "Homepage:",
+                    Homepage,
+                    "",
+                    $"Birthday {BirthdayDay}. {BirthdayMonth} {BirthdayYear} ({Age})",
+                    $"Anniversary {AnniversaryDay}. {AnniversaryMonth} {AnniversaryYear} ({AnniversaryYears})",
+                    "",
+                    SecondaryAddress,
+                    "",
+                    "P: " + SecondaryHome,
+                    "",
+                    Notes
+                };
+                var result = string.Join("\r\n", parts);
+                return result;
+            }
+            set
+            {
+                allData = value;
+            }
+        }
+
+
         public string CleanUp(string phone)
         {
             if (phone == null || phone == "")
             {
                 return "";
             }
-            return phone.Replace(" ", "").Replace("-", "").Replace("(", "").Replace(")", "") + "\r\n";
+            return Regex.Replace(phone, @"[ \-()]", "") + "\r\n";
         }
     }
 }
