@@ -20,14 +20,14 @@ namespace WebAdressbookTests
             contact.Title = "Title";
             contact.Company = "Company";
             contact.Address = "Address";
-            contact.HomePhone = "HomePhone";
-            contact.MobilePhone = "MobilePhone";
-            contact.WorkPhone = "WorkPhone";
-            contact.Fax = "Fax";
-            contact.Email = "email1";
-            contact.Email2 = "email2";
-            contact.Email3 = "email3";
-            contact.Homepage = "HomePhone";
+            contact.HomePhone = "+79320000000";
+            contact.MobilePhone = "+79320000002";
+            contact.WorkPhone = "+79320000003";
+            contact.Fax = "7220000";
+            contact.Email = "email1@gmail.com";
+            contact.Email2 = "email2@gmail.com";
+            contact.Email3 = "email3@gmail.com";
+            contact.Homepage = "Homepage";
             contact.BirthdayDay = "1";
             contact.BirthdayMonth = "January";
             contact.BirthdayYear = "1990";
@@ -35,7 +35,7 @@ namespace WebAdressbookTests
             contact.AnniversaryMonth = "February";
             contact.AnniversaryYear = "2010";
             contact.SecondaryAddress = "SecondaryAddress";
-            contact.SecondaryHome = "SecondaryHome";
+            contact.SecondaryHome = "+7(932)000-00-00";
             contact.Notes = "Notes";
 
             List<ContactData> oldContacts = app.Contacts.GetContactList();
