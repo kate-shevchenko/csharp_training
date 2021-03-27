@@ -116,10 +116,14 @@ namespace WebAdressbookTests
                 }
                 else
                 {
-                    var emails = new string[]
-                    {
-                        Email, Email2, Email3
-                    };
+                    var emails = new List<string>();
+                    if (!string.IsNullOrEmpty(Email))
+                        emails.Add(Email);
+                    if (!string.IsNullOrEmpty(Email2))
+                        emails.Add(Email2);
+                    if (!string.IsNullOrEmpty(Email3))
+                        emails.Add(Email3);
+
                     var result = string.Join("\r\n", emails);
                     return result.Trim();
                 }
