@@ -96,7 +96,7 @@ namespace WebAdressbookTests
                 }
                 else
                 {
-                    var result = CleanUp(HomePhone) + CleanUp(MobilePhone) + CleanUp(WorkPhone) + CleanUp(SecondaryHome);
+                    string result = CleanUp(HomePhone) + CleanUp(MobilePhone) + CleanUp(WorkPhone) + CleanUp(SecondaryHome);
                     return result.Trim();
                 }
             }
@@ -116,7 +116,7 @@ namespace WebAdressbookTests
                 }
                 else
                 {
-                    var emails = new List<string>();
+                    List<string> emails = new List<string>();
                     if (!string.IsNullOrEmpty(Email))
                         emails.Add(Email);
                     if (!string.IsNullOrEmpty(Email2))
@@ -124,7 +124,7 @@ namespace WebAdressbookTests
                     if (!string.IsNullOrEmpty(Email3))
                         emails.Add(Email3);
 
-                    var result = string.Join("\r\n", emails);
+                    string result = string.Join("\r\n", emails);
                     return result.Trim();
                 }
             }
@@ -138,11 +138,18 @@ namespace WebAdressbookTests
         {
             get
             {
-                if (BirthdayDay == null || BirthdayMonth == null || BirthdayYear == null)
+                if (BirthdayYear == null)
                     return null;
-                var birthdayString = $"{BirthdayDay} {BirthdayMonth} {BirthdayYear}";
-                var birthdayDate = DateTime.Parse(birthdayString);
-                var age = DateTime.Now - birthdayDate;
+                string birthdayDay = string.IsNullOrEmpty(BirthdayDay)
+                    ? "1"
+                    : BirthdayDay;
+                string birthdayMonth = string.IsNullOrEmpty(BirthdayMonth)
+                    ? "1"
+                    : BirthdayMonth;
+
+                string birthdayString = $"{birthdayDay} {birthdayMonth} {BirthdayYear}";
+                DateTime birthdayDate = DateTime.Parse(birthdayString);
+                TimeSpan age = DateTime.Now - birthdayDate;
                 return (int)(age.TotalDays / 365.2425);
             }
         }
@@ -151,12 +158,11 @@ namespace WebAdressbookTests
         {
             get
             {
-                if (AnniversaryDay == null || AnniversaryMonth == null || AnniversaryYear == null)
+                if (AnniversaryYear == null)
                     return null;
-                var anniversaryString = $"{AnniversaryDay} {AnniversaryMonth} {AnniversaryYear}";
-                var anniversaryDate = DateTime.Parse(anniversaryString);
-                var anniversaryYears = DateTime.Now - anniversaryDate;
-                return (int)(anniversaryYears.TotalDays / 365.2425);
+                int anniversaryYear = int.Parse(AnniversaryYear);
+                int result = DateTime.Now.Year - anniversaryYear;
+                return result;
             }
         }
 
@@ -168,34 +174,134 @@ namespace WebAdressbookTests
                 {
                     return allData;
                 }
-                var parts = new string[] {
-                    $"{FirstName} {MiddleName} {LastName}",
-                    Nickname,
-                    Title,
-                    Company,
-                    Address,
-                    "",
-                    "H: " + HomePhone,
-                    "M: " + MobilePhone,
-                    "W: " + WorkPhone,
-                    "F: " + Fax,
-                    "",
-                    Email,
-                    Email2,
-                    Email3,
-                    "Homepage:",
-                    Homepage,
-                    "",
-                    $"Birthday {BirthdayDay}. {BirthdayMonth} {BirthdayYear} ({Age})",
-                    $"Anniversary {AnniversaryDay}. {AnniversaryMonth} {AnniversaryYear} ({AnniversaryYears})",
-                    "",
-                    SecondaryAddress,
-                    "",
-                    "P: " + SecondaryHome,
-                    "",
-                    Notes
-                };
-                var result = string.Join("\r\n", parts);
+                List<string> parts = new List<string>();
+
+                bool isNamePresent = !string.IsNullOrEmpty(FirstName) 
+                    || !string.IsNullOrEmpty(MiddleName) 
+                    || !string.IsNullOrEmpty(LastName);
+                if (isNamePresent)
+                {
+                    List<string> fullNameParts = new List<string>();
+                    if (!string.IsNullOrEmpty(FirstName))
+                        fullNameParts.Add(FirstName);
+                    if (!string.IsNullOrEmpty(MiddleName))
+                        fullNameParts.Add(MiddleName);
+                    if (!string.IsNullOrEmpty(LastName))
+                        fullNameParts.Add(LastName);
+
+                    string fullName = string.Join(" ", fullNameParts);
+                    parts.Add(fullName);
+                }
+
+                if (!string.IsNullOrEmpty(Nickname))
+                    parts.Add(Nickname);
+                if (!string.IsNullOrEmpty(Title))
+                    parts.Add(Title);
+                if (!string.IsNullOrEmpty(Company))
+                    parts.Add(Company);
+                if (!string.IsNullOrEmpty(Address))
+                    parts.Add(Address);
+
+                bool arePhonesPresent = !string.IsNullOrEmpty(HomePhone) 
+                    || !string.IsNullOrEmpty(MobilePhone) 
+                    || !string.IsNullOrEmpty(WorkPhone) 
+                    || !string.IsNullOrEmpty(Fax);
+                if (arePhonesPresent)
+                {
+                    parts.Add(string.Empty);
+                    if (!string.IsNullOrEmpty(HomePhone))
+                        parts.Add("H: " + HomePhone);
+                    if (!string.IsNullOrEmpty(MobilePhone))
+                        parts.Add("M: " + MobilePhone);
+                    if (!string.IsNullOrEmpty(WorkPhone))
+                        parts.Add("W: " + WorkPhone);
+                    if (!string.IsNullOrEmpty(Fax))
+                        parts.Add("F: " + Fax);
+                }
+
+                bool areEmailsPresent = !string.IsNullOrEmpty(Email) 
+                    || !string.IsNullOrEmpty(Email2) 
+                    || !string.IsNullOrEmpty(Email3) 
+                    || !string.IsNullOrEmpty(Homepage);
+                if (areEmailsPresent)
+                {
+                    parts.Add(string.Empty);
+                    if (!string.IsNullOrEmpty(Email))
+                        parts.Add(Email);
+                    if (!string.IsNullOrEmpty(Email2))
+                        parts.Add(Email2);
+                    if (!string.IsNullOrEmpty(Email3))
+                        parts.Add(Email3);
+                    if (!string.IsNullOrEmpty(Homepage))
+                        parts.Add("Homepage:\r\n" + Homepage);
+                }
+
+                bool isBirthdayPresent = !string.IsNullOrEmpty(BirthdayDay) 
+                    || !string.IsNullOrEmpty(BirthdayMonth) 
+                    || !string.IsNullOrEmpty(BirthdayYear);
+                bool isAnniversaryPresent = !string.IsNullOrEmpty(AnniversaryDay)
+                    || !string.IsNullOrEmpty(AnniversaryMonth)
+                    || !string.IsNullOrEmpty(AnniversaryYear);
+                if (isBirthdayPresent || isAnniversaryPresent)
+                {
+                    parts.Add(string.Empty);
+
+                    if (isBirthdayPresent)
+                    {
+                        List<string> birthdayParts = new List<string> { "Birthday" };
+
+                        if (!string.IsNullOrEmpty(BirthdayDay))
+                            birthdayParts.Add(BirthdayDay + ".");
+                        if (!string.IsNullOrEmpty(BirthdayMonth))
+                            birthdayParts.Add(BirthdayMonth);
+                        if (!string.IsNullOrEmpty(BirthdayYear))
+                        {
+                            birthdayParts.Add(BirthdayYear);
+                            birthdayParts.Add($"({Age})");
+                        }
+
+                        string birthday = string.Join(" ", birthdayParts);
+                        parts.Add(birthday);
+                    }
+
+                    if (isAnniversaryPresent)
+                    {
+                        List<string> anniversaryParts = new List<string> { "Anniversary" };
+
+                        if (!string.IsNullOrEmpty(AnniversaryDay))
+                            anniversaryParts.Add(AnniversaryDay+ ".");
+                        if (!string.IsNullOrEmpty(AnniversaryMonth))
+                            anniversaryParts.Add(AnniversaryMonth);
+                        if (!string.IsNullOrEmpty(AnniversaryYear))
+                        {
+                            anniversaryParts.Add(AnniversaryYear);
+                            anniversaryParts.Add($"({AnniversaryYears})");
+                        }
+
+                        string anniversary = string.Join(" ", anniversaryParts);
+                        parts.Add(anniversary);
+                    }
+                }
+
+                if (!string.IsNullOrEmpty(SecondaryAddress))
+                {
+                    parts.Add(string.Empty);
+                    parts.Add(SecondaryAddress);
+                }
+
+                if (!string.IsNullOrEmpty(SecondaryHome))
+                {
+                    parts.Add(string.Empty);
+                    parts.Add("P: " + SecondaryHome);
+                }
+
+                if (!string.IsNullOrEmpty(Notes))
+                {
+                    parts.Add(string.Empty);
+                    parts.Add(Notes);
+                }
+
+                string result = string.Join("\r\n", parts);
                 return result;
             }
             set

@@ -190,10 +190,19 @@ namespace WebAdressbookTests
             string birthdayMonth = driver.FindElement(By.Name("bmonth")).GetAttribute("value");
             string birthdayYear = driver.FindElement(By.Name("byear")).GetAttribute("value");
             string anniversaryDay = driver.FindElement(By.Name("aday")).GetAttribute("value");
-            string anniversaryMonth = driver.FindElement(By.Name("amonth")).GetAttribute("value");
+            string anniversaryMonth = driver.FindElement(By.Name("amonth")).FindElement(By.CssSelector("option[selected='selected']")).Text;
             string anniversaryYear = driver.FindElement(By.Name("ayear")).GetAttribute("value");
             string address2 = driver.FindElement(By.Name("address2")).GetAttribute("value");
             string notes = driver.FindElement(By.Name("notes")).GetAttribute("value");
+
+            if (birthdayDay == "0")
+                birthdayDay = null;
+            if (anniversaryDay == "0")
+                anniversaryDay = null;
+            if (birthdayMonth == "-")
+                birthdayMonth = null;
+            if (anniversaryMonth == "-")
+                anniversaryMonth = null;
 
             return new ContactData(firstName, lastName)
             {
